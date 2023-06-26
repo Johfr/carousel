@@ -1,0 +1,13 @@
+<template>
+  <svg version="1.1" id="Calque_1" xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:cc="http://creativecommons.org/ns#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+    viewBox="340 95.2 161.9 285.8" enable-background="new 340 95.2 161.9 285.8" xml:space="preserve">
+    <g transform="translate(0,-952.36218)">
+      <path
+        d="M340,1191.4c0.2,5.8,2.5,11.4,6.5,15.6l114.3,119.1c9.1,9.5,24.2,9.8,33.7,0.7c9.5-9.1,9.8-24.2,0.7-33.7l-98.4-102.5
+		l98.4-102.5c9.1-9.5,8.8-24.6-0.7-33.7s-24.6-8.8-33.7,0.7L346.6,1174C342.1,1178.6,339.8,1184.9,340,1191.4L340,1191.4z" />
+    </g>
+</svg></template>
