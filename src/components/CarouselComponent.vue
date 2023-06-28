@@ -178,10 +178,10 @@ section {
 	.list {
 		display: flex;
 		justify-content: center;
-    width: 100%;
+    	width: 100%;
 		height: calc(100vh - 72px);
-    margin: 0 auto;
-    overflow: hidden;
+    	margin: 0 auto;
+    	overflow: hidden;
 		position: relative;
 		opacity: 0;
 		animation: fade 4s .4s forwards;
@@ -267,7 +267,7 @@ section {
     	width: 320px;
 			height: 500px;
 			right: 50%;
-    	transform: translate(50%, -50%);
+    		transform: translate(50%, -50%);
 			z-index: 2;
 			overflow: visible;
 			
@@ -296,8 +296,9 @@ section {
 			}
 
 			.content {
-    		padding: 16px;
+    			padding: 16px;
 				overflow: visible;
+				background-color: rgba(0, 0, 0, .2);
 				
 				@media screen and (min-width: 900px) {
 					background-color: rgba(255, 255, 255, .3);
@@ -316,13 +317,15 @@ section {
 
 		.content {
 			position: absolute;
-			top: -30%;
-			left: -18px;
+			top: 0;
+			left: 0;
+			right: 0;
 			overflow: hidden;
 			
 			@media screen and (min-width: 900px) {
 				top: 50%;
 				left: -23px;
+				right: unset;
 			}
 
 			h1 {
