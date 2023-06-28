@@ -1,7 +1,7 @@
 :root {
   font-family: Roboto, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
-  font-weight: 100;
+  font-weight: 300;
 
   color-scheme: light dark;
 
@@ -49,9 +49,10 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
+  /* transition: border-color 0.25s; */
   color: #fff;
   border-radius: 25px;
+  transition: 1s ease;
 }
 button:hover {
   border-color: #646cff;
@@ -80,4 +81,13 @@ button:focus-visible {
   /* min-height: 100vh; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes rotate {
+	0% {
+		transform: translate(50%, -50%) rotate(180deg);
+	}
+	100% {
+		transform: translate(50%, -50%) rotate(0);
+	}
 }

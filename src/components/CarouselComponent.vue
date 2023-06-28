@@ -6,66 +6,83 @@ const emit = defineEmits(['bgColor'])
 
 const data = [
 	{
-		title: "Blue Sea",
-		desc: "Under Water Creature - Project by Mary X",
-		img: "src/assets/img/monument.jpg"
+		title: "Himalaya under fog",
+		desc: "Himalaya with fog - Project by Peter Magnus",
+		img: "src/assets/img/himalaya.jpg"
 	},
 	{
-		title: "Blue Sea",
-		desc: "Up-Above Water Monumment - Project by Mary X",
+		title: "Lighthouse",
+		desc: "Lighthouse Under water - Project by John Peterson",
 		img: "src/assets/img/lighthouse.jpg"
 	},
 	{
-		title: "Blue Sea",
-		desc: "Under Water Creature - Project by Mary X",
+		title: "Montgolfière",
+		desc: "hot air balloon - Project by James K",
 		img: "src/assets/img/air-balloon.jpg"
 	},
 	{
+		title: "Natural lake",
+		desc: "Nature - Project by Keanu R",
+		img: "src/assets/img/natural-lake.jpg"
+	},
+	{
+		title: "Feel lonely",
+		desc: "Park - Project by Akon X",
+		img: "src/assets/img/lonely.jpg"
+	},
+	{
 		title: "Blue Sea",
-		desc: "Up-Above Water Monumment - Project by Mary X",
+		desc: "Public park seat - Project by Mary X",
 		img: "src/assets/img/monument.jpg"
 	},
 ]
 
-let firstDataToDisplay = ref(1)
+let slideToDisplay = ref(0)
 let isPrev = ref(false)
 
 const showPrev = () => {
-	firstDataToDisplay.value -= 1
+	slideToDisplay.value -= 1
 	isPrev.value = true
 
-	if (firstDataToDisplay.value < 0) {
-		firstDataToDisplay.value = data.length - 1
+	if (slideToDisplay.value < 0) {
+		slideToDisplay.value = data.length - 1
 	}
 	
-	emit('bgColor', firstDataToDisplay.value)
+	emit('bgColor', slideToDisplay.value)
 }
 
 const showNext = () => {
-	firstDataToDisplay.value += 1
+	slideToDisplay.value += 1
 	isPrev.value = false
 
-	if (firstDataToDisplay.value > data.length - 1) {
-		firstDataToDisplay.value = 0
+	if (slideToDisplay.value > data.length - 1) {
+		slideToDisplay.value = 0
 	}
 	
-	emit('bgColor', firstDataToDisplay.value)
+	emit('bgColor', slideToDisplay.value)
 }
 
+const goFirstOrLast = () => {
+	slideToDisplay.value === data.length -1 ? slideToDisplay.value = 0 : slideToDisplay.value = data.length -1
+	emit('bgColor', slideToDisplay.value)
+	return slideToDisplay.value
+}
 </script>
 
 <template>
 	<section>
-		<button class="arrow-container prev" @click="showPrev" :disabled="firstDataToDisplay === 0 ? true : false">
+		<button class="arrow-container prev" @click="showPrev" :disabled="slideToDisplay === 0 ? true : false" title="Previous">
 			<Arrow class="arrow-left arrow-icon" />
 			<p>Previous</p>
 		</button>
-		<!-- v-show="itemId === firstDataToDisplay || itemId === firstDataToDisplay - 1 || itemId === firstDataToDisplay + 1" -->
+
 		<ul class="list">
 			<li
 				class="item"
 				v-for="(item, itemId) in data" :key="itemId"
-				:class="{ancestor: itemId < firstDataToDisplay - 1, previous: itemId < firstDataToDisplay, active: itemId === firstDataToDisplay, next: itemId > firstDataToDisplay, grandChild: itemId > firstDataToDisplay + 1 }"
+				:class="{ancestor: itemId < slideToDisplay - 1, previous: itemId < slideToDisplay, active: itemId === slideToDisplay, next: itemId > slideToDisplay, grandChild: itemId > slideToDisplay + 1 }"
+				@click="slideToDisplay = itemId"
+				:title="item.title"
 			>
 				<div class="img-container">
 					<img :src="item.img" alt="">
@@ -82,9 +99,15 @@ const showNext = () => {
 			</li>
 		</ul>
 		
-		<button class="arrow-container next" @click="showNext" :disabled="firstDataToDisplay === data.length - 1 ? true : false">
+		<button class="arrow-container next" @click="showNext" :disabled="slideToDisplay === data.length - 1 ? true : false" title="Next">
 			<Arrow class="arrow-left arrow-icon" />
 			<p>Next</p>
+		</button>
+
+		<button @click="goFirstOrLast" class="quick-end-button" :title='slideToDisplay === data.length -1 ? "Go to First slide" : "Go to last end"'>
+			<span>
+				{{ slideToDisplay === data.length -1 ? "First slide" : "Quick end" }}
+			</span>
 		</button>
 	</section>
 </template>
@@ -95,29 +118,41 @@ section {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	// position: relative;
 
 	.arrow-container {
-		width: 100px;
-		height: 100px;
+		width: 55px;
+		height: 55px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		background-color: rgba(0, 0, 0, .5);
 		position: absolute;
-		top: 50%;
+		bottom: 30px;
 		border-radius: 50%;
 		z-index: 3;
 		cursor: pointer;
 
+		@media screen and (min-width: 900px) {
+			width: 100px;
+			height: 100px;
+			top: 50%;
+			bottom: unset;
+		}
+
 		&.prev {
-			left: 10%;
+			left: 10px;
+			@media screen and (min-width: 900px) {
+				left: 10%;
+			}
 		}
 
 		&.next {
-			right: 10%;
+			right: 10px;
 			.arrow-icon {
 				transform: rotate(180deg);
+			}
+			@media screen and (min-width: 900px) {
+				right: 10%;
 			}
 		}
 
@@ -133,8 +168,11 @@ section {
 		}
 
 		p {
-			position: absolute;
-			bottom: -130%;
+			display: none;
+			@media screen and (min-width: 900px) {
+				position: absolute;
+				bottom: -130%;
+			}
 		}
 	}
 	.list {
@@ -160,6 +198,7 @@ section {
 		top: 50%;
 		transform: translateY(-50%);
 		transition: 1s ease;
+		cursor: pointer;
 
 		.img-container {
 			width: 285px;
@@ -175,13 +214,17 @@ section {
 		}
 
 		&.previous, &.next {
+			width: 285px;
+			height: 285px;
+			
 			.img-container {
 				width: 285px;
-				height: 500px;
+				height: 285px;
 			}
 			img {
 				width: 100%;
 				height: 100%;
+    		filter: opacity(.5);
 			}
 
 			.content {
@@ -190,8 +233,9 @@ section {
 		}
 		&.previous {
 			right: 80%;
-			// left: 5%; // affect la fluidité de l'animation - bon pour le responsive (+) // rajouter une class en timeout ?
-    	transform: translate(0%, -50%) rotate(-180deg);
+			@media screen and (min-width: 900px) {
+				transform: translate(0%, -50%) rotate(-180deg);
+			}
 			&.ancestor {
 				width: 50px;
 				height: 50px;
@@ -204,7 +248,9 @@ section {
 		&.next {
 			right: 5%;
 			left: unset;
-    	transform: translate(0%, -50%) rotate(180deg);
+			@media screen and (min-width: 900px) {
+				transform: translate(0%, -50%) rotate(180deg);
+			}
 			
 			&.grandChild {
 				width: 50px;
@@ -213,30 +259,50 @@ section {
 				right: -33%;
 				left: unset;
 				transform: translate(0%, -50%);
+				z-index: -1;
 			}
 		}
 
 		&.active {
-			width: 485px;
-			height: 800px;
+    	width: 320px;
+			height: 500px;
 			right: 50%;
     	transform: translate(50%, -50%);
 			z-index: 2;
 			overflow: visible;
 			
-			.img-container {
+			@media screen and (min-width: 900px) {
 				width: 485px;
-				height: 800px;
+				height: 750px;
+			}
+			
+			.img-container {
+				width: 100%;
+				width: 320px;
+				height: 500px;
+				@media screen and (min-width: 900px) {
+					width: 485px;
+					height: 750px;
+				}
 			}
 			img {
-				width: 485px;
-				height: 800px;
+				width: 100%;
+				width: 320px;
+				height: 500px;
+				@media screen and (min-width: 900px) {
+					width: 485px;
+					height: 750px;
+				}
 			}
 
 			.content {
     		padding: 16px;
-				background-color: rgba(255, 255, 255, .3);
 				overflow: visible;
+				
+				@media screen and (min-width: 900px) {
+					background-color: rgba(255, 255, 255, .3);
+				}
+
 				h1 {
 					animation: slideUp 2s forwards;
 				}
@@ -250,25 +316,51 @@ section {
 
 		.content {
 			position: absolute;
-			top: 50%;
-			left: -23px;
+			top: -30%;
+			left: -18px;
 			overflow: hidden;
+			
+			@media screen and (min-width: 900px) {
+				top: 50%;
+				left: -23px;
+			}
 
 			h1 {
 				margin-top: 0;
 				margin-bottom: 0;
+				font-size: 2.2rem;
+				padding-left: 30px;
 				font-weight: 500;
+				@media screen and (min-width: 900px) {
+					padding-left: unset;
+					font-size: 3.2rem;
+				}
 			}
 		}
 	}
 }
 
-@keyframes rotate {
-	0% {
-		transform: translate(50%, -50%) rotate(180deg);
+.quick-end-button {
+	padding: 15px 35px;
+	background-color: #1d2732b3;
+	position: absolute;
+	bottom: 50px;
+	left: 50%;
+	transform: translateX(-50%);
+	box-shadow: 0px 2px 2px #1d2732;
+	border: unset;
+	z-index: 3;
+
+	&:hover {
+		border: unset;
+		box-shadow: unset;
 	}
-	100% {
-		transform: translate(50%, -50%) rotate(0);
+
+	&:focus,
+	&:focus-visible {
+		outline: unset;
+		border: unset;
+		box-shadow: unset;
 	}
 }
 

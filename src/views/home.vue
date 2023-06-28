@@ -3,11 +3,22 @@ import { ref } from 'vue'
 import Navbar from '../components/Navbar.vue'
 import Carousel from '../components/CarouselComponent.vue'
 
-const homeBgColor = ['#8dc3e5', '#5c6d77', '#9299be', '#8dc3e5',]
-const bg = ref(homeBgColor[1])
+const homeBgColor = ['#3a4e65', '#5c6d77', '#9299be', '#312415', '#30495a', '#8dc3e5']
+const bg = ref(homeBgColor[0])
 
 const changeBgColor = (index) => {
-	bg.value = homeBgColor[index]
+	if (index > homeBgColor.length -1) {
+		const randomColor = Math.round(Math.random() * 10)
+		
+		// applique une couleur prédéfinie ou du noir
+		if (randomColor <= homeBgColor.length) {
+			bg.value = homeBgColor[randomColor]
+		} else {
+			bg.value = '#000'
+		}
+	} else {
+		bg.value = homeBgColor[index]
+	}
 }
 
 </script>
@@ -28,17 +39,4 @@ const changeBgColor = (index) => {
   background-color: v-bind(bg);
 	transition: .6s ease-out;
 }
-// @keyframes slideUp {
-// 	0% {
-// 		transform: translateY(200px);
-// 		opacity: 0;
-// 	}
-// 	70% {
-// 		opacity: 0.3;
-// 	}
-// 	100% {
-// 		transform: translateY(0);
-// 		opacity: 1;
-// 	}
-// }
 </style>

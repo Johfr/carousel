@@ -1,15 +1,25 @@
 <script setup>
 import BurgerMenu from '../components/BurgerMenu.vue'
+import CarouselLogo from '../components/CarouselLogo.vue'
 </script>
 
 <template>
 	<nav>
-		<p class="logo">Unseen</p>
+		<ul class="list">
+			<li>About</li>
+			<li>News</li>
+			<li>Contact</li>
+		</ul>
+
+		<p class="logo">
+			<CarouselLogo />
+			Unseen.
+		</p>
 
 		<BurgerMenu class="burgerIcon" />
 		<ul class="list">
-			<li>About</li>
-			<li>Blog</li>
+			<li>Services</li>
+			<li>Works</li>
 			<li>
 				<button>
 					Sign up
@@ -32,15 +42,13 @@ nav {
 	position: relative;
 	z-index: 3;
 	font-family: 'Roboto', sans-serif;
-	text-transform: uppercase;
 	animation: slideDown 3s 1s forwards;
 	opacity: 0;
 	.burgerIcon {
 		width: 18px;
 		height: 18px;
-		path {
-			fill: rgba(0, 0, 0, 0.7)
-		}
+		fill: rgba(255, 255, 255, 0.7);
+		
 		@media screen and (min-width: 1080px) {
 			display: none;
 		}
@@ -48,7 +56,16 @@ nav {
 	
 
 	.logo {
-		letter-spacing: 5px;
+		display: flex;
+		align-items: flex-start;
+		font-size: 1.4rem;
+		
+		svg {
+			width: 25px;
+			height: 25px;
+			margin-right: 5px;
+			fill: #fff;
+		}
 	}
 
 
@@ -60,6 +77,13 @@ nav {
 			align-items: center;
 
 			li {
+				cursor: pointer;
+				transition: .4s ease;
+
+				&:hover {
+					opacity: .6;
+				}
+
 				&:not(:last-child) {
 					margin-right: 30px;
 				}
