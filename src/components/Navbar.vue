@@ -67,8 +67,6 @@ nav {
 			fill: #fff;
 		}
 	}
-
-
 		
 	.list {
 		display: none;

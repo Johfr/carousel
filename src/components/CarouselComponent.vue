@@ -1,41 +1,30 @@
 <script setup>
-import { ref, defineEmits } from 'vue'
+import { ref, defineEmits, defineProps } from 'vue'
 import Arrow from '../components/Arrow.vue'
 
-const emit = defineEmits(['bgColor'])
+const props = defineProps({
+	nearImg: {
+		type: Boolean,
+		default: false
+	},
+	data: {
+		type: Array,
+		default: [
+			{
+				title: "Himalaya under fog",
+				desc: "Himalaya with fog - Project by Peter Magnus",
+				img: "src/assets/img/himalaya.jpg"
+			},
+			{
+				title: "Lighthouse",
+				desc: "Lighthouse Under water - Project by John Peterson",
+				img: "src/assets/img/lighthouse.jpg"
+			},
+		]
+	}
+})
 
-const data = [
-	{
-		title: "Himalaya under fog",
-		desc: "Himalaya with fog - Project by Peter Magnus",
-		img: "src/assets/img/himalaya.jpg"
-	},
-	{
-		title: "Lighthouse",
-		desc: "Lighthouse Under water - Project by John Peterson",
-		img: "src/assets/img/lighthouse.jpg"
-	},
-	{
-		title: "Montgolfière",
-		desc: "hot air balloon - Project by James K",
-		img: "src/assets/img/air-balloon.jpg"
-	},
-	{
-		title: "Natural lake",
-		desc: "Nature - Project by Keanu R",
-		img: "src/assets/img/natural-lake.jpg"
-	},
-	{
-		title: "Feel lonely",
-		desc: "Park - Project by Akon X",
-		img: "src/assets/img/lonely.jpg"
-	},
-	{
-		title: "Blue Sea",
-		desc: "Public park seat - Project by Mary X",
-		img: "src/assets/img/monument.jpg"
-	},
-]
+const emit = defineEmits(['bgColor'])
 
 let slideToDisplay = ref(0)
 let isPrev = ref(false)
@@ -45,7 +34,7 @@ const showPrev = () => {
 	isPrev.value = true
 
 	if (slideToDisplay.value < 0) {
-		slideToDisplay.value = data.length - 1
+		slideToDisplay.value = props.data.length - 1
 	}
 	
 	emit('bgColor', slideToDisplay.value)
@@ -55,7 +44,7 @@ const showNext = () => {
 	slideToDisplay.value += 1
 	isPrev.value = false
 
-	if (slideToDisplay.value > data.length - 1) {
+	if (slideToDisplay.value > props.data.length - 1) {
 		slideToDisplay.value = 0
 	}
 	
@@ -63,7 +52,7 @@ const showNext = () => {
 }
 
 const goFirstOrLast = () => {
-	slideToDisplay.value === data.length -1 ? slideToDisplay.value = 0 : slideToDisplay.value = data.length -1
+	slideToDisplay.value === props.data.length -1 ? slideToDisplay.value = 0 : slideToDisplay.value = props.data.length -1
 	emit('bgColor', slideToDisplay.value)
 	return slideToDisplay.value
 }
@@ -80,7 +69,7 @@ const goFirstOrLast = () => {
 			<li
 				class="item"
 				v-for="(item, itemId) in data" :key="itemId"
-				:class="{ancestor: itemId < slideToDisplay - 1, previous: itemId < slideToDisplay, active: itemId === slideToDisplay, next: itemId > slideToDisplay, grandChild: itemId > slideToDisplay + 1 }"
+				:class="{ancestor: itemId < slideToDisplay - 1, previous: itemId < slideToDisplay, active: itemId === slideToDisplay, next: itemId > slideToDisplay, grandChild: itemId > slideToDisplay + 1, 'close-img':  nearImg }"
 				@click="slideToDisplay = itemId"
 				:title="item.title"
 			>
@@ -118,6 +107,7 @@ section {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	position: relative;
 
 	.arrow-container {
 		width: 55px;
@@ -233,9 +223,6 @@ section {
 		}
 		&.previous {
 			right: 80%;
-			@media screen and (min-width: 900px) {
-				transform: translate(0%, -50%) rotate(-180deg);
-			}
 			&.ancestor {
 				width: 50px;
 				height: 50px;
@@ -244,13 +231,20 @@ section {
 				left: unset;
 				transform: translate(0%, -50%);
 			}
+
+			@media screen and (min-width: 900px) {
+				transform: translate(0%, -50%) rotate(-180deg);
+				&.close-img {
+					right: 60%;
+					&.ancestor {
+						right: 80%;
+					}
+				}
+			}
 		}
 		&.next {
 			right: 5%;
 			left: unset;
-			@media screen and (min-width: 900px) {
-				transform: translate(0%, -50%) rotate(180deg);
-			}
 			
 			&.grandChild {
 				width: 50px;
@@ -260,6 +254,16 @@ section {
 				left: unset;
 				transform: translate(0%, -50%);
 				z-index: -1;
+			}
+
+			@media screen and (min-width: 900px) {
+				transform: translate(0%, -50%) rotate(180deg);
+				&.close-img {
+					right: 25%;
+					&.grandChild {
+						right: 21%;
+					}
+				}
 			}
 		}
 
